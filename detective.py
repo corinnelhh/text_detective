@@ -17,6 +17,7 @@ class FortuneTeller(object):
         vec = CV(
             analyzer='word',
             stop_words=stopwords,
+            encoding='latin-1',
         )
         print "Building X, Y..."
         X = vec.fit_transform(X).toarray()
