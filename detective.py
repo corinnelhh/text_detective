@@ -24,7 +24,6 @@ class FortuneTeller(object):
         print "Building X, Y..."
         X = vec.fit_transform(X).toarray()
         Y = np.array(y)
-        print Y
         return X, Y, vec.get_feature_names()
 
     def fit_classifier(self, X, y):
@@ -56,6 +55,8 @@ class FortuneTeller(object):
         X, Y, vocab = self.vectorize(X, Y)
         lr = self.fit_classifier(X, Y)
         print "Finishing fitting classifier"
+        print "*" * 20
+        print vocab
         return lr
 
 if __name__ == '__main__':
