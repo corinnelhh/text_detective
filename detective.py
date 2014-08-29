@@ -1,6 +1,8 @@
 import csv
 from csv import excel_tab
 from sklearn.feature_extraction.text import CountVectorizer as CV
+from sklearn.linear_model import LogisticRegression as LR
+from sklearn.cross_validation import cross_val_score
 import numpy as np
 
 # 'Blog author gender classification data set associated with the paper
@@ -22,7 +24,15 @@ class FortuneTeller(object):
         print "Building X, Y..."
         X = vec.fit_transform(X).toarray()
         Y = np.array(y)
+        print Y
         return X, Y, vec.get_feature_names()
+
+    def fit_classifier(self, X, y):
+        lr = LR()
+        print "Running cross-validation."
+        score = np.mean(cross_val_score(lr, X, y, cv=10))
+        print score
+        return lr.fit(X, y)
 
     def read_gender_data_file(self):
         lines = csv.reader(open(self.gender_data, 'rU'), dialect=excel_tab)
@@ -31,14 +41,22 @@ class FortuneTeller(object):
         for line in lines:
             line = [i for i in line[0].split(',') if len(i)]
             if len(line):
-                y.append(line.pop())
-                X.append(" ".join(line))
+                g = line.pop().strip().upper()
+                if g == 'M':
+                    y.append(g)
+                    X.append(" ".join(line))
+                elif g == 'F':
+                    y.append(g)
+                    X.append(" ".join(line))
         print "Read in files"
         return X, y
 
     def train_teller(self):
         X, Y = self.read_gender_data_file()
         X, Y, vocab = self.vectorize(X, Y)
+        lr = self.fit_classifier(X, Y)
+        print "Finishing fitting classifier"
+        return lr
 
 if __name__ == '__main__':
     ft = FortuneTeller()
