@@ -74,17 +74,11 @@ class FortuneTeller(object):
         pickle_file.close()
         return X
 
-    def prettify_prediction(self, prediction):
-        responses = {'M': [], 'F': []}
-        with open('texts/male_preds.txt', 'r') as f:
-            m_responses = f.read()
-        with open('texts/female_preds.txt', 'r') as f:
-            f_responses = f.read()
-        for m_resp in m_responses:
-            responses['M'].append(m_resp)
-        for f_resp in f_responses:
-            responses['F'].append(f_resp)
-        return responses
+    def prettify_prediction(self, pred):
+        responses = {'M': "male_preds.txt", 'F': "female_preds.txt"}
+        with open('texts/%s' % responses[pred], 'r') as f:
+            responses = f.readlines()
+        return random.choice(responses)
 
     def test_teller(self, sample):
         lr = self.load_pickle('classifier')
@@ -93,7 +87,7 @@ class FortuneTeller(object):
         print len(test_x)
         print "vectorized sample"
         prediction = lr.predict(test_x)
-        return prediction[0]
+        return self.prettify_prediction(prediction[0])
 
 if __name__ == '__main__':
     ft = FortuneTeller()
