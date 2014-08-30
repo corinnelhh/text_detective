@@ -38,23 +38,21 @@ class FortuneTeller(object):
     def read_gender_data_file(self):
         lines = csv.reader(open(self.gender_data, 'rU'), dialect=excel_tab)
         X, y = [], []
+        labels = ['M', 'F']
         print "Reading in files"
         for line in lines:
             line = [i for i in line[0].split(',') if len(i)]
             if len(line):
                 g = line.pop().strip().upper()
-                if g == 'M':
-                    y.append(g)
-                    X.append(" ".join(line))
-                elif g == 'F':
+                if g in labels:
                     y.append(g)
                     X.append(" ".join(line))
         print "Read in files"
-        Y = np.array(y)
-        return X, Y
+        return X, y
 
     def train_teller(self):
-        X, Y = self.read_gender_data_file()
+        X, y = self.read_gender_data_file()
+        Y = np.array(y)
         X, vocab = self.vectorize(X)
         lr = self.fit_classifier(X, Y)
         print "Finishing fitting classifier"
@@ -70,8 +68,8 @@ class FortuneTeller(object):
     def load_pickle(self, item):
         pickle_file = open('pickles/%s' % str(item), 'rb')
         X = cPickle.load(pickle_file)
-        print "Pickle loaded."
         pickle_file.close()
+        print item, 'pickle loaded'
         return X
 
     def prettify_prediction(self, pred):
@@ -84,12 +82,9 @@ class FortuneTeller(object):
         lr = self.load_pickle('classifier')
         vocab = self.load_pickle('vocab')
         test_x, vocab_ = self.vectorize([sample], vocab)
-        print len(test_x)
-        print "vectorized sample"
         prediction = lr.predict(test_x)
         return self.prettify_prediction(prediction[0])
 
 if __name__ == '__main__':
     ft = FortuneTeller()
     ft.pickle_prediction_tools()
-
