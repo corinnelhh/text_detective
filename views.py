@@ -20,8 +20,10 @@ def get_input_text():
     submission = request.form['submission']
     if len(submission.split()) > 50:
         answer = ft.test_teller(submission)
-    else:
+    elif len(submission.split()):
         answer = "Hey, this isn't Twitter! Give us more to work with!"
+    else:
+        answer = None
     return redirect(url_for('show_main_page', prediction=answer))
 
 if __name__ == '__main__':
