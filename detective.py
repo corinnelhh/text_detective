@@ -83,6 +83,7 @@ class Detective_(object):
         vocab = self.load_pickle('vocab')
         test_x, vocab_ = self.vectorize([sample], vocab)
         prediction = lr.predict(test_x)
+        print zip(tuple(lr.classes_), tuple(lr.predict_proba(test_x)[0]))
         return self.prettify_prediction(prediction[0])
 
 if __name__ == '__main__':
