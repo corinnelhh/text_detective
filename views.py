@@ -18,7 +18,10 @@ def show_main_page():
 def get_input_text():
     u"""Receive input text from site."""
     submission = request.form['submission']
-    answer = "Hey, you said {}".format(submission)
+    if len(submission.split()) > 50:
+        answer = ft.test_teller(submission)
+    else:
+        answer = "Hey, this isn't Twitter! Give us more to work with!"
     return redirect(url_for('show_main_page', prediction=answer))
 
 if __name__ == '__main__':
