@@ -12,7 +12,7 @@ import random
 # from http://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html
 
 
-class FortuneTeller(object):
+class Detective_(object):
     def __init__(self, gender_data='texts/blog-gender-dataset.csv'):
         self.gender_data = gender_data
 
@@ -86,5 +86,5 @@ class FortuneTeller(object):
         return self.prettify_prediction(prediction[0])
 
 if __name__ == '__main__':
-    ft = FortuneTeller()
+    ft = Detective_()
     ft.pickle_prediction_tools()
