@@ -3,7 +3,9 @@ from csv import excel_tab
 from sklearn.feature_extraction.text import CountVectorizer as CV
 from sklearn.linear_model import LogisticRegression as LR
 from sklearn.cross_validation import cross_val_score
+import cPickle
 import numpy as np
+import random
 
 # 'Blog author gender classification data set associated with the paper
 # (Mukherjee and Liu, EMNLP-2010)'
@@ -56,11 +58,37 @@ class FortuneTeller(object):
         X, vocab = self.vectorize(X)
         lr = self.fit_classifier(X, Y)
         print "Finishing fitting classifier"
-        return lr, vocab
+        return (lr, 'classifier'), (vocab, 'vocab')
+
+    def pickle_prediction_tools(self):
+        for el in self.train_teller():
+            pickle_file = open('pickles/%s' % el[1], 'wb')
+            cPickle.dump(el[0], pickle_file)
+            pickle_file.close()
+            print "Finished pickling", el[1]
+
+    def load_pickle(self, item):
+        pickle_file = open('pickles/%s' % str(item), 'rb')
+        X = cPickle.load(pickle_file)
+        print "Pickle loaded."
+        pickle_file.close()
+        return X
+
+    def prettify_prediction(self, prediction):
+        responses = {'M': [], 'F': []}
+        with open('texts/male_preds.txt', 'r') as f:
+            m_responses = f.read()
+        with open('texts/female_preds.txt', 'r') as f:
+            f_responses = f.read()
+        for m_resp in m_responses:
+            responses['M'].append(m_resp)
+        for f_resp in f_responses:
+            responses['F'].append(f_resp)
+        return responses
 
     def test_teller(self, sample):
-        lr, vocab = self.train_teller()
-        print "teller trained"
+        lr = self.load_pickle('classifier')
+        vocab = self.load_pickle('vocab')
         test_x, vocab_ = self.vectorize([sample], vocab)
         print len(test_x)
         print "vectorized sample"
@@ -68,7 +96,6 @@ class FortuneTeller(object):
         return prediction[0]
 
 if __name__ == '__main__':
-    with open('julia.txt', 'r') as f:
-        m = f.read()
     ft = FortuneTeller()
-    print ft.test_teller(m)
+    ft.pickle_prediction_tools()
+

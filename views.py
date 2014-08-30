@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template
+from flask import render_template, request, url_for, redirect
 
 from detective import FortuneTeller
 
@@ -10,8 +10,19 @@ app = Flask(__name__)
 @app.route('/')
 def show_main_page():
     u"""Displays base.html."""
-    return render_template('base.html')
+    prediction = request.args.get('prediction')
+    return render_template('base.html', prediction=prediction)
 
+
+@app.route('/submit', methods=['GET', 'POST'])
+def get_input_text():
+    u"""Receive input text from site."""
+    submission = request.form['submission']
+    if len(submission.split()) > 50:
+        answer = ft.test_teller(submission)
+    else:
+        answer = "Hey, this isn't Twitter! Give us more to work with!"
+    return redirect(url_for('show_main_page', prediction=answer))
 
 if __name__ == '__main__':
     ft = FortuneTeller()
