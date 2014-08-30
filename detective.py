@@ -12,7 +12,7 @@ import random
 # from http://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html
 
 
-class FortuneTeller(object):
+class Detective_(object):
     def __init__(self, gender_data='texts/blog-gender-dataset.csv'):
         self.gender_data = gender_data
 
@@ -38,23 +38,21 @@ class FortuneTeller(object):
     def read_gender_data_file(self):
         lines = csv.reader(open(self.gender_data, 'rU'), dialect=excel_tab)
         X, y = [], []
+        labels = ['M', 'F']
         print "Reading in files"
         for line in lines:
             line = [i for i in line[0].split(',') if len(i)]
             if len(line):
                 g = line.pop().strip().upper()
-                if g == 'M':
-                    y.append(g)
-                    X.append(" ".join(line))
-                elif g == 'F':
+                if g in labels:
                     y.append(g)
                     X.append(" ".join(line))
         print "Read in files"
-        Y = np.array(y)
-        return X, Y
+        return X, y
 
     def train_teller(self):
-        X, Y = self.read_gender_data_file()
+        X, y = self.read_gender_data_file()
+        Y = np.array(y)
         X, vocab = self.vectorize(X)
         lr = self.fit_classifier(X, Y)
         print "Finishing fitting classifier"
@@ -70,32 +68,23 @@ class FortuneTeller(object):
     def load_pickle(self, item):
         pickle_file = open('pickles/%s' % str(item), 'rb')
         X = cPickle.load(pickle_file)
-        print "Pickle loaded."
         pickle_file.close()
+        print item, 'pickle loaded'
         return X
 
-    def prettify_prediction(self, prediction):
-        responses = {'M': [], 'F': []}
-        with open('texts/male_preds.txt', 'r') as f:
-            m_responses = f.read()
-        with open('texts/female_preds.txt', 'r') as f:
-            f_responses = f.read()
-        for m_resp in m_responses:
-            responses['M'].append(m_resp)
-        for f_resp in f_responses:
-            responses['F'].append(f_resp)
-        return responses
+    def prettify_prediction(self, pred):
+        responses = {'M': "male_preds.txt", 'F': "female_preds.txt"}
+        with open('texts/%s' % responses[pred], 'r') as f:
+            responses = f.readlines()
+        return random.choice(responses)
 
     def test_teller(self, sample):
         lr = self.load_pickle('classifier')
         vocab = self.load_pickle('vocab')
         test_x, vocab_ = self.vectorize([sample], vocab)
-        print len(test_x)
-        print "vectorized sample"
         prediction = lr.predict(test_x)
-        return prediction[0]
+        return self.prettify_prediction(prediction[0])
 
 if __name__ == '__main__':
-    ft = FortuneTeller()
+    ft = Detective_()
     ft.pickle_prediction_tools()
-

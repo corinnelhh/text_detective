@@ -2,27 +2,31 @@
 
 <html lang="en">
 
-<h1>The Fortune Teller is in!</h1>
+<head>
+<link rel="stylesheet" type="text/css" href="static/style.css">
+</head>
 
-<body>
+<h1>The Text Detective is Ready!</h1>
+    <body>
+        <form id="input_form" action="{{url_for('get_input_text')}}" method="POST" class="submit">
+            <div class="field">
+                <textarea name="submission" method="POST" rows="30" cols="50">
+                </textarea>
+                <br>
+                <br>
+                <input type="submit" value="Get Author Analysis">
+            </div>
+        </form>
+        <div id="output box">
+            {% if prediction %}
+                <br>
+                {{prediction}}
+            {% endif %}
+        </div>
 
-
-<form id="input_form" action="{{url_for('get_input_text')}}" method="POST" class="submit">
-    <div class="field">
-    <input type="text" name="submission" size="35"
-            method="POST" placeholder="Enter some text if you dare!">
-    </div>
-</form>
-
-<div id="output box">
-
-{% if prediction %}
-
-{{prediction}}
-
-{% endif %}
-
-</div>
-
-</body>
+    <footer>
+            <p>Copyright © 2014 by Corinne Hutchinson.<br>
+            View the Python source code on <a href="https://github.com/corinnelhh/text_detective">GitHub</a>.<br>
+    </footer>
+    </body>
 </html>
