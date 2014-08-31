@@ -101,5 +101,5 @@ class Detective_(object):
 if __name__ == '__main__':
     ft = Detective_()
     # ft.pickle_prediction_tools()
-    # ft.train_teller()
+    ft.train_teller()
     ft.show_most_informative_features()
