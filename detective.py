@@ -1,6 +1,7 @@
 import csv
 from csv import excel_tab
 from sklearn.feature_extraction.text import CountVectorizer as CV
+from sklearn.feature_extraction.text import TfidfVectorizer as TFIDF
 from sklearn.linear_model import LogisticRegression as LR
 from sklearn.cross_validation import cross_val_score
 import cPickle
@@ -18,7 +19,7 @@ class Detective_(object):
 
     def vectorize(self, X, vocab_=None):
         stopwords = open('texts/stopwords.txt').read().lower().split()
-        vec = CV(
+        vec = TFIDF(
             analyzer='word',
             stop_words=stopwords,
             encoding='latin-1',
@@ -30,9 +31,9 @@ class Detective_(object):
 
     def fit_classifier(self, X, y):
         lr = LR()
-        # print "Running cross-validation."
-        # score = np.mean(cross_val_score(lr, X, y, cv=10))
-        # print score
+        print "Running cross-validation."
+        score = np.mean(cross_val_score(lr, X, y, cv=10))
+        print score
         return lr.fit(X, y)
 
     def read_gender_data_file(self):
@@ -78,14 +79,27 @@ class Detective_(object):
             responses = f.readlines()
         return random.choice(responses)
 
+    def show_most_informative_features(self, n=20):
+        u"""Code adapted from stack overflow discussion;
+        http://stackoverflow.com/questions/11116697/
+        how-to-get-most-informative-features-for-scikit-learn-classifiers"""
+        clf = self.load_pickle('classifier')
+        vocab = self.load_pickle('vocab')
+        coefs_with_fns = sorted(zip(clf.coef_[0], vocab))
+        top = zip(coefs_with_fns[:n], coefs_with_fns[:-(n + 1):-1])
+        for (coef_1, fn_1), (coef_2, fn_2) in top:
+            print "\t%.4f\t%-15s\t\t%.4f\t%-15s" % (coef_1, fn_1, coef_2, fn_2)
+
     def test_teller(self, sample):
         lr = self.load_pickle('classifier')
         vocab = self.load_pickle('vocab')
         test_x, vocab_ = self.vectorize([sample], vocab)
         prediction = lr.predict(test_x)
-        print zip(tuple(lr.classes_), tuple(lr.predict_proba(test_x)[0]))
+        print zip(lr.classes_, lr.predict_proba(test_x)[0])
         return self.prettify_prediction(prediction[0])
 
 if __name__ == '__main__':
     ft = Detective_()
-    ft.pickle_prediction_tools()
+    # ft.pickle_prediction_tools()
+    # ft.train_teller()
+    ft.show_most_informative_features()
