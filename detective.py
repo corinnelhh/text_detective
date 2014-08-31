@@ -73,11 +73,18 @@ class Detective_(object):
         print item, 'pickle loaded'
         return X
 
-    def prettify_prediction(self, pred):
-        responses = {'M': "male_preds.txt", 'F': "female_preds.txt"}
-        with open('texts/%s' % responses[pred], 'r') as f:
-            responses = f.readlines()
-        return random.choice(responses)
+    # def prettify_prediction(self, pred):
+    #     responses = {'M': "male_preds.txt", 'F': "female_preds.txt"}
+    #     with open('texts/%s' % responses[pred], 'r') as f:
+    #         responses = f.readlines()
+    #     return random.choice(responses)
+
+    def prettify_prediction(self, pred, prob):
+        genders = {"M": 'man', "F": 'woman'}
+        prediction = "By analyzing the word frequencies in this text, the \
+        Text Detective finds that there is a {} probability that the author\
+        is a {}.".format("%.4f" % prob, genders[pred])
+        return prediction
 
     def show_most_informative_features(self, n=20):
         u"""Code adapted from stack overflow discussion;
@@ -95,11 +102,12 @@ class Detective_(object):
         vocab = self.load_pickle('vocab')
         test_x, vocab_ = self.vectorize([sample], vocab)
         prediction = lr.predict(test_x)
+        prob = max(lr.predict_proba(test_x)[0])
         print zip(lr.classes_, lr.predict_proba(test_x)[0])
-        return self.prettify_prediction(prediction[0])
+        return self.prettify_prediction(prediction[0], prob)
 
 if __name__ == '__main__':
     ft = Detective_()
-    # ft.pickle_prediction_tools()
-    ft.train_teller()
+    ft.pickle_prediction_tools()
+    # ft.train_teller()
     ft.show_most_informative_features()
