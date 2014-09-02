@@ -19,7 +19,7 @@
         <div id="output box">
             {% if prediction %}
                 <br>
-                {{prediction}}
+                {{prediction|safe}}
             {% endif %}
         </div>
 

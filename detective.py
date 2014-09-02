@@ -81,10 +81,10 @@ class Detective_(object):
 
     def prettify_prediction(self, pred, prob, top_fts):
         genders = {"M": 'man', "F": 'woman'}
-        prediction = "By analyzing the word frequencies in this text, the \
-        Text Detective finds that there is a {} probability that the author\
-        is a {}. These were the words which had the greatest impact on \
-        the prediction: {}".format("%.4f" % prob, genders[pred], top_fts)
+        prediction = "The Text Detective finds that there is a <b>{}</b> \
+        probability that the author is a <b>{}</b>. The words \
+        <b>{}</b> had the greatest impact on the \
+        prediction".format("%.4f" % prob, genders[pred], top_fts)
         return prediction
 
     def show_most_informative_features(self, n=20):
