@@ -79,11 +79,12 @@ class Detective_(object):
     #         responses = f.readlines()
     #     return random.choice(responses)
 
-    def prettify_prediction(self, pred, prob):
+    def prettify_prediction(self, pred, prob, top_fts):
         genders = {"M": 'man', "F": 'woman'}
         prediction = "By analyzing the word frequencies in this text, the \
         Text Detective finds that there is a {} probability that the author\
-        is a {}.".format("%.4f" % prob, genders[pred])
+        is a {}. These were the words which had the greatest impact on \
+        the prediction: {}".format("%.4f" % prob, genders[pred], top_fts)
         return prediction
 
     def show_most_informative_features(self, n=20):
@@ -97,14 +98,27 @@ class Detective_(object):
         for (coef_1, fn_1), (coef_2, fn_2) in top:
             print "\t%.4f\t%-15s\t\t%.4f\t%-15s" % (coef_1, fn_1, coef_2, fn_2)
 
+    def show_features_from_sample(self, sample, clf, vocab, pred, n=10):
+        coefs_with_fns = sorted(zip(clf.coef_[0], vocab))
+        top = zip(coefs_with_fns, coefs_with_fns[::-1])
+        out, sample_w = [], sample.split()
+        for (coef_1, fn_1), (coef_2, fn_2) in top:
+            w = fn_2 if pred[0] == 'M' else fn_1
+            if w in sample_w:
+                out.append(w)
+            if len(out) > n:
+                break
+        return ", ".join(out)
+
     def test_teller(self, sample):
         lr = self.load_pickle('classifier')
         vocab = self.load_pickle('vocab')
         test_x, vocab_ = self.vectorize([sample], vocab)
-        prediction = lr.predict(test_x)
+        pred = lr.predict(test_x)
         prob = max(lr.predict_proba(test_x)[0])
+        top_fts = self.show_features_from_sample(sample, lr, vocab, pred)
         print zip(lr.classes_, lr.predict_proba(test_x)[0])
-        return self.prettify_prediction(prediction[0], prob)
+        return self.prettify_prediction(pred[0], prob, top_fts)
 
 if __name__ == '__main__':
     ft = Detective_()
