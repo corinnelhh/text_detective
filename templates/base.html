@@ -8,23 +8,26 @@
 
 <h1>The Text Detective is Ready!</h1>
     <body>
-        <form id="input_form" action="{{url_for('get_input_text')}}" method="POST" class="submit">
-            <div class="field">
-                <textarea name="submission" method="POST" rows="30" cols="50"></textarea>
-                <br>
-                <br>
-                <input type="submit" value="Get Author Analysis">
+        <div id="info-wrap">
+            <form id="input_form" action="{{url_for('get_input_text')}}" method="POST" class="submit">
+                <div class="field info left">
+                    <textarea name="submission" method="POST" rows="25" cols="50"></textarea>
+                    <div class="submit-button">
+                        <input type="submit" value="Get Author Analysis">
+                    </div>
+                </div>
+            </form>
+            <div id="output" class="info right">
+                {% if prediction %}
+                    {{prediction|safe}}
+                {% endif %}
             </div>
-        </form>
-        <div id="output box">
-            {% if prediction %}
-                <br>
-                {{prediction|safe}}
-            {% endif %}
         </div>
-
+        <div class="about">
+            {{about|safe}}
+        </div>
     <footer>
-            <p>Copyright © 2014 by Corinne Hutchinson.<br>
+            <p>Copyright © 2014 by Corinne Hutchinson.
             View the Python source code on <a href="https://github.com/corinnelhh/text_detective">GitHub</a>.<br>
     </footer>
     </body>
