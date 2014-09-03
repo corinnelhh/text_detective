@@ -1,9 +1,11 @@
 text_detective
 ==============
 
-Takes in a text sample; if the sample is at least 50 words in length provides a profile of the author based on writing style. 
+Takes in a text sample; if the sample is at least 100 words in length provides a profile of the author based on writing style. 
 
 Currently returns author gender with approximately 70% accuracy.
 
-Feel free to suggest additional features for analysis.
+Basic app is deployed here: http://ec2-54-68-86-232.us-west-2.compute.amazonaws.com/
+
+Feel free to suggest additional features for analysis!
 
