@@ -28,7 +28,8 @@ def get_input_text():
 
 if __name__ == '__main__':
     dt = Detective_()
-    app.run(debug=True)
-    # from wsgiref.simple_server import make_server
-    # srv = make_server('localhost', 8000, app)
-    # srv.serve_forever()
+    # app.run(debug=True)
+    app.run(debug=False)
+    from wsgiref.simple_server import make_server
+    srv = make_server('localhost', 8000, app)
+    srv.serve_forever()
