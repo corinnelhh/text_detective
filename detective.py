@@ -4,6 +4,7 @@ from sklearn.feature_extraction.text import CountVectorizer as CV
 from sklearn.feature_extraction.text import TfidfVectorizer as TFIDF
 from sklearn.linear_model import LogisticRegression as LR
 from sklearn.cross_validation import cross_val_score
+from bs4 import BeautifulSoup
 import cPickle
 import numpy as np
 import random
@@ -113,7 +114,7 @@ class Detective_(object):
         return ", ".join(out)
 
     def get_snippet(self, sample):
-        bits = sample.split()
+        bits = BeautifulSoup(sample).get_text().split()
         first, last = " ".join(bits[:15]), " ".join(bits[-15:])
         return ". . .".join([first, last])
 
