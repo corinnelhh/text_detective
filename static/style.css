@@ -13,7 +13,7 @@ h1 {
     font-size: 60px;
     font-variant: oblique;
     font-weight: lighter;
-    margin-left: 40px;
+    margin-left: 100px;
     margin-right: 425px;
 }
 
@@ -25,6 +25,7 @@ body {
 
 .info{
     width: 40%;
+    margin-left: 50px;
     padding: 10px;
 }
 
@@ -37,7 +38,6 @@ body {
     vertical-align: top;
     float: right;
     padding: 30px;
-    margin-left: 50px;
     margin-right: 50px;
 }
 
