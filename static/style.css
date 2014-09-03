@@ -1,9 +1,20 @@
 
 
 h1 {
-    text-align: center;
+    background-color: #F4FBFF;
+    border-width: 1px;
+    border-radius: 45px;
+    border-style: solid;
+    border-color: #001F6A;
+    padding: 10px;
+    padding-left: 60px;
+    text-align: left;
     font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
-    font-style: oblique;
+    font-size: 60px;
+    font-variant: oblique;
+    font-weight: lighter;
+    margin-left: 40px;
+    margin-right: 425px;
 }
 
 body {
@@ -12,7 +23,45 @@ body {
     text-align: center;
 }
 
+.info{
+    width: 40%;
+    padding: 10px;
+}
+
+.left{
+    float: left;
+}
+
+.right {
+    text-align: left;
+    vertical-align: top;
+    float: right;
+    padding: 30px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+#info-wrap{
+    overflow: hidden;
+}
+
+.submit-button{
+    padding: 10px;
+}
+
+.about {
+    background-color: #F4FBFF;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: #001F6A;
+    padding: 10px;
+    width: auto;
+    margin-left: 100px;
+    margin-right: 100px;
+
+}
+
 footer {
-    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
     font-size: 14px;
 }
