@@ -79,12 +79,14 @@ class Detective_(object):
     #         responses = f.readlines()
     #     return random.choice(responses)
 
-    def prettify_prediction(self, pred, prob, top_fts):
+    def prettify_prediction(self, sample, pred, prob, top_fts):
         genders = {"M": 'man', "F": 'woman'}
-        prediction = "The Text Detective finds that there is a <b>{}%</b> \
-        probability that the author is a <b>{}</b>. The words \
-        <b>{}</b> had the greatest impact on the \
-        prediction".format(str("%.2f" % prob)[2:], genders[pred], top_fts)
+        snip = self.get_snippet(sample)
+        with open('texts/prediction.txt', 'r') as f:
+            p = f.read()
+        prediction = p.format(
+            snip, str("%.2f" % prob)[2:], genders[pred], top_fts
+        )
         return prediction
 
     def show_most_informative_features(self, n=20):
@@ -110,6 +112,11 @@ class Detective_(object):
                 break
         return ", ".join(out)
 
+    def get_snippet(self, sample):
+        bits = sample.split()
+        first, last = " ".join(bits[:15]), " ".join(bits[-15:])
+        return ". . .".join([first, last])
+
     def test_teller(self, sample):
         lr = self.load_pickle('classifier')
         vocab = self.load_pickle('vocab')
@@ -118,7 +125,7 @@ class Detective_(object):
         prob = max(lr.predict_proba(test_x)[0])
         top_fts = self.show_features_from_sample(sample, lr, vocab, pred)
         print zip(lr.classes_, lr.predict_proba(test_x)[0])
-        return self.prettify_prediction(pred[0], prob, top_fts)
+        return self.prettify_prediction(sample, pred[0], prob, top_fts)
 
 if __name__ == '__main__':
     ft = Detective_()
