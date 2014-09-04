@@ -1,13 +1,11 @@
 import csv
 from csv import excel_tab
-from sklearn.feature_extraction.text import CountVectorizer as CV
 from sklearn.feature_extraction.text import TfidfVectorizer as TFIDF
-from sklearn.linear_model import LogisticRegression as LR
+from sklearn.naive_bayes import MultinomialNB as MNB
 from sklearn.cross_validation import cross_val_score
 from bs4 import BeautifulSoup
 import cPickle
 import numpy as np
-import random
 
 # 'Blog author gender classification data set associated with the paper
 # (Mukherjee and Liu, EMNLP-2010)'
@@ -17,7 +15,7 @@ import random
 class Detective_(object):
     def __init__(self, gender_data='texts/blog-gender-dataset.csv'):
         self.gender_data = gender_data
-        self.lr = self.load_pickle('classifier')
+        self.clf = self.load_pickle('classifier')
         self.vocab = self.load_pickle('vocab')
 
     def vectorize(self, X, vocab_=None):
@@ -33,11 +31,11 @@ class Detective_(object):
         return X, vec.get_feature_names()
 
     def fit_classifier(self, X, y):
-        lr = LR()
+        clf = MNB(alpha=1E-2)
         print "Running cross-validation."
-        score = np.mean(cross_val_score(lr, X, y, cv=10))
+        score = np.mean(cross_val_score(clf, X, y, cv=10))
         print score
-        return lr.fit(X, y)
+        return clf.fit(X, y)
 
     def read_gender_data_file(self):
         lines = csv.reader(open(self.gender_data, 'rU'), dialect=excel_tab)
@@ -58,9 +56,9 @@ class Detective_(object):
         X, y = self.read_gender_data_file()
         Y = np.array(y)
         X, vocab = self.vectorize(X)
-        lr = self.fit_classifier(X, Y)
+        clf = self.fit_classifier(X, Y)
         print "Finishing fitting classifier"
-        return (lr, 'classifier'), (vocab, 'vocab')
+        return (clf, 'classifier'), (vocab, 'vocab')
 
     def pickle_prediction_tools(self):
         for el in self.train_teller():
@@ -90,13 +88,13 @@ class Detective_(object):
         u"""Code adapted from stack overflow discussion;
         http://stackoverflow.com/questions/11116697/
         how-to-get-most-informative-features-for-scikit-learn-classifiers"""
-        coefs_with_fns = sorted(zip(self.lr.coef_[0], self.vocab))
+        coefs_with_fns = sorted(zip(self.clf.coef_[0], self.vocab))
         top = zip(coefs_with_fns[:n], coefs_with_fns[:-(n + 1):-1])
         for (coef_1, fn_1), (coef_2, fn_2) in top:
             print "\t%.4f\t%-15s\t\t%.4f\t%-15s" % (coef_1, fn_1, coef_2, fn_2)
 
     def show_features_from_sample(self, sample, pred, n=10):
-        coefs_with_fns = sorted(zip(self.lr.coef_[0], self.vocab))
+        coefs_with_fns = sorted(zip(self.clf.coef_[0], self.vocab))
         top = zip(coefs_with_fns, coefs_with_fns[::-1])
         out, sample_w = [], sample.split()
         for (coef_1, fn_1), (coef_2, fn_2) in top:
@@ -114,10 +112,10 @@ class Detective_(object):
 
     def test_teller(self, sample):
         test_x, vocab_ = self.vectorize([sample], self.vocab)
-        pred = self.lr.predict(test_x)
-        prob = max(self.lr.predict_proba(test_x)[0])
+        pred = self.clf.predict(test_x)
+        prob = max(self.clf.predict_proba(test_x)[0])
         top_fts = self.show_features_from_sample(sample, pred)
-        print zip(self.lr.classes_, self.lr.predict_proba(test_x)[0])
+        print zip(self.clf.classes_, self.clf.predict_proba(test_x)[0])
         return self.prettify_prediction(sample, pred[0], prob, top_fts)
 
 if __name__ == '__main__':

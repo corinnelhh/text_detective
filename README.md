@@ -3,7 +3,7 @@ text_detective
 
 Takes in a text sample; if the sample is at least 100 words in length provides a profile of the author based on writing style. 
 
-Uses the bag-of-words model with TF/IDF term weighting. 
+Uses the bag-of-words model with TF/IDF term weighting.
 
 Currently returns author gender with approximately 70% accuracy.
 
