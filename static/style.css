@@ -23,20 +23,23 @@ body {
     text-align: center;
 }
 
+
+.grid:after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
 .info{
     width: 40%;
     margin-left: 50px;
     padding: 10px;
-}
-
-.left{
-    float: left;
+    float:left;
 }
 
 .right {
     text-align: left;
     vertical-align: top;
-    float: right;
     padding: 30px;
     margin-right: 50px;
 }
