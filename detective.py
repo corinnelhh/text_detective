@@ -74,12 +74,6 @@ class Detective_(object):
         print item, 'pickle loaded'
         return X
 
-    # def prettify_prediction(self, pred):
-    #     responses = {'M': "male_preds.txt", 'F': "female_preds.txt"}
-    #     with open('texts/%s' % responses[pred], 'r') as f:
-    #         responses = f.readlines()
-    #     return random.choice(responses)
-
     def prettify_prediction(self, sample, pred, prob, top_fts):
         genders = {"M": 'man', "F": 'woman'}
         snip = self.get_snippet(sample)
@@ -116,7 +110,7 @@ class Detective_(object):
     def get_snippet(self, sample):
         bits = BeautifulSoup(sample).get_text().split()
         first, last = " ".join(bits[:15]), " ".join(bits[-15:])
-        return ". . .".join([first, last])
+        return " [ . . . ] ".join([first, last])
 
     def test_teller(self, sample):
         lr = self.load_pickle('classifier')
