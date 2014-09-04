@@ -9,5 +9,7 @@ Currently returns author gender with approximately 70% accuracy.
 
 Basic app is deployed here: http://ec2-54-68-86-232.us-west-2.compute.amazonaws.com/
 
+To run the app yourself, clone the repo, and then run views.py.
+
 Feel free to suggest additional features for analysis!
 
