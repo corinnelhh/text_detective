@@ -78,7 +78,7 @@ class Detective_(object):
 
     def prettify_prediction(self, sample, pred, prob, top_fts):
         genders = {"M": 'man', "F": 'woman'}
-        snip = self.get_snippet(sample)
+        snip = self.get_snippet(sample).encode('utf-8')
         with open('texts/prediction.txt', 'r') as f:
             p = f.read()
         prediction = p.format(
