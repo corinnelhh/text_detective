@@ -17,6 +17,8 @@ import random
 class Detective_(object):
     def __init__(self, gender_data='texts/blog-gender-dataset.csv'):
         self.gender_data = gender_data
+        self.lr = self.load_pickle('classifier')
+        self.vocab = self.load_pickle('vocab')
 
     def vectorize(self, X, vocab_=None):
         stopwords = open('texts/stopwords.txt').read().lower().split()
@@ -88,15 +90,13 @@ class Detective_(object):
         u"""Code adapted from stack overflow discussion;
         http://stackoverflow.com/questions/11116697/
         how-to-get-most-informative-features-for-scikit-learn-classifiers"""
-        clf = self.load_pickle('classifier')
-        vocab = self.load_pickle('vocab')
-        coefs_with_fns = sorted(zip(clf.coef_[0], vocab))
+        coefs_with_fns = sorted(zip(self.lr.coef_[0], self.vocab))
         top = zip(coefs_with_fns[:n], coefs_with_fns[:-(n + 1):-1])
         for (coef_1, fn_1), (coef_2, fn_2) in top:
             print "\t%.4f\t%-15s\t\t%.4f\t%-15s" % (coef_1, fn_1, coef_2, fn_2)
 
-    def show_features_from_sample(self, sample, clf, vocab, pred, n=10):
-        coefs_with_fns = sorted(zip(clf.coef_[0], vocab))
+    def show_features_from_sample(self, sample, pred, n=10):
+        coefs_with_fns = sorted(zip(self.lr.coef_[0], self.vocab))
         top = zip(coefs_with_fns, coefs_with_fns[::-1])
         out, sample_w = [], sample.split()
         for (coef_1, fn_1), (coef_2, fn_2) in top:
@@ -113,13 +113,11 @@ class Detective_(object):
         return " [ . . . ] ".join([first, last])
 
     def test_teller(self, sample):
-        lr = self.load_pickle('classifier')
-        vocab = self.load_pickle('vocab')
-        test_x, vocab_ = self.vectorize([sample], vocab)
-        pred = lr.predict(test_x)
-        prob = max(lr.predict_proba(test_x)[0])
-        top_fts = self.show_features_from_sample(sample, lr, vocab, pred)
-        print zip(lr.classes_, lr.predict_proba(test_x)[0])
+        test_x, vocab_ = self.vectorize([sample], self.vocab)
+        pred = self.lr.predict(test_x)
+        prob = max(self.lr.predict_proba(test_x)[0])
+        top_fts = self.show_features_from_sample(sample, pred)
+        print zip(self.lr.classes_, self.lr.predict_proba(test_x)[0])
         return self.prettify_prediction(sample, pred[0], prob, top_fts)
 
 if __name__ == '__main__':
