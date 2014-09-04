@@ -1,0 +1,4 @@
+You entered the text: <br><br> <i> {} </i> <br>
+<br>The Text Detective finds that there is a <b>{}%</b> probability
+that the author is a <b>{}</b>. <br><br> The words <b>{}</b> had the greatest
+impact on the prediction.
