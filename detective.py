@@ -2,6 +2,7 @@ import csv
 from csv import excel_tab
 from sklearn.feature_extraction.text import TfidfVectorizer as TFIDF
 from sklearn.naive_bayes import MultinomialNB as MNB
+from sklearn.linear_model import LogisticRegression as LR
 from sklearn.cross_validation import cross_val_score
 from bs4 import BeautifulSoup
 import cPickle
@@ -31,7 +32,8 @@ class Detective_(object):
         return X, vec.get_feature_names()
 
     def fit_classifier(self, X, y):
-        clf = MNB(alpha=1E-2)
+        # clf = MNB(alpha=1E-2)
+        clf = LR()
         print "Running cross-validation."
         score = np.mean(cross_val_score(clf, X, y, cv=10))
         print score
@@ -120,6 +122,6 @@ class Detective_(object):
 
 if __name__ == '__main__':
     ft = Detective_()
-    ft.pickle_prediction_tools()
+    # ft.pickle_prediction_tools()
     # ft.train_teller()
-    # ft.show_most_informative_features()
+    ft.show_most_informative_features()
