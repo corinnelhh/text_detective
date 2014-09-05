@@ -7,8 +7,10 @@
 <link href="http://fonts.googleapis.com/css?family=Lobster+Two" rel="stylesheet" type="text/css">
 </head>
 
+<body>
+<div id="container">
+
 <h1 class="lead">The Text Detective</h1>
-    <body>
         <div class="grid">
             <form id="input_form" action="{{url_for('get_input_text')}}" method="POST" class="info left submit">
                 <div class="field">
@@ -18,11 +20,7 @@
                     </div>
                 </div>
             </form>
-            <div id="output" class="info right">
-                {% if prediction %}
-                    {{prediction|safe}}
-                {% endif %}
-            </div>
+            <div id="output" class="info right">{% if prediction %}{{prediction|safe}}{% endif %}</div>
         </div>
         <div class="about">
             {{about|safe}}
@@ -31,5 +29,6 @@
             <p>Copyright © 2014 by Corinne Hutchinson.
             View the Python source code on <a href="https://github.com/corinnelhh/text_detective">GitHub</a>.<br>
     </footer>
-    </body>
+</div>
+</body>
 </html>

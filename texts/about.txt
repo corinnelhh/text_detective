@@ -1,0 +1,8 @@
+Given an English text sample of at least 100 words, the Text Detective uses basic
+statistical natural language processing techniques to predict the most
+likely gender of an author.
+Using a <a href="http://en.wikipedia.org/wiki/Bag-of-words_model">bag-of-words model</a> for feature
+selection,
+the Text Detective uses a <a href="http://en.wikipedia.org/wiki/Tf%E2%80%93idf">TF-IDF weighting scheme</a>
+to select the most important words associated with male and female authorship. The current model makes
+a correct prediction roughly 70% of the time.
