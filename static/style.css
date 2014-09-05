@@ -1,25 +1,25 @@
 
 
 h1 {
-    background-color: #ffcc66;
+    background-color: #C0D8E5;
     padding: 10px;
     border-width: 2px;
     border-radius: 15px;
     border-style: solid;
-    border-color: #663300;
+    border-color: #4A85A8;
     text-align: center;
     font-family: 'Lobster Two', Helvetica, sans-serif;
     font-size: 64px;
     font-variant: oblique;
     font-weight: lighter;
     width: 500px;
-    margin-left: 40px;
+    margin: 20px 0px 10px 40px;
 }
 
 
 body {
     font-family: Helvetica, sans-serif;
-    background-color: #cccc99;
+    background-color: #4A85A8;
     text-align: center;
     overflow: hidden;
 }
@@ -28,29 +28,29 @@ body {
 {
 margin-left: auto;
 margin-right: auto;
-width: 940px;
+width: 960px;
 padding: 0px;
 }
 
 
 A:link
 {
-color: #cc6600;
+color: #6B1919;
 text-decoration: none;
 }
 A:active
 {
-color: #cc6600;
+color: #6B1919;
 text-decoration: none
 }
 A:hover
 {
-color: #cc6600;
+color: #6B1919;
 text-decoration: none
 }
 A:visited
 {
-color: #cc6600;
+color: #6B1919;
 text-decoration: none
 }
 
@@ -74,14 +74,14 @@ text-decoration: none
     text-align: left;
     line-height: 150%;
     margin: 40px 40px 10px 10px;
-    width: 300px;
+    width: 280px;
     font-size: 12px;
-
+    padding: 20px;
     border-style: solid; 
     border-width: 1px;
     border-radius: 15px;
-    background-color: #999966;
-    border-color: #663300;
+    background-color: #C0D8E5;
+    border-color: #4A85A8;
 
 }
 
@@ -108,11 +108,11 @@ div:empty {
 }
 
 .about {
-    background-color: #ffcc66;
+    background-color: #C0D8E5;
     border-style: solid;
     border-width: 1px;
     border-radius: 15px;
-    border-color: #663300;
+    border-color: #4A85A8;
     padding: 10px;
     line-height: 150%;
     width: auto;
