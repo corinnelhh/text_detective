@@ -16,7 +16,6 @@ h1 {
     margin: 20px 0px 10px 40px;
 }
 
-
 body {
     font-family: Helvetica, sans-serif;
     background-color: #4A85A8;
@@ -24,37 +23,32 @@ body {
     overflow: hidden;
 }
 
-#container
-{
+#container{
 margin-left: auto;
 margin-right: auto;
 width: 960px;
 padding: 0px;
 }
 
-
-A:link
-{
+A:link {
 color: #6B1919;
 text-decoration: none;
 }
-A:active
-{
-color: #6B1919;
-text-decoration: none
-}
-A:hover
-{
-color: #6B1919;
-text-decoration: none
-}
-A:visited
-{
+
+A:active {
 color: #6B1919;
 text-decoration: none
 }
 
+A:hover {
+color: #6B1919;
+text-decoration: none
+}
 
+A:visited {
+color: #6B1919;
+text-decoration: none
+}
 
 .grid:after{
     content: "";
